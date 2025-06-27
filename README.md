@@ -1,4 +1,5 @@
 **DuckLake Demo — PostgreSQL + MinIO Setup**
+
 This project uses Docker Compose to run:
 
  **PostgreSQL** — to store DuckLake metadata (schemas, snapshots, manifests)
