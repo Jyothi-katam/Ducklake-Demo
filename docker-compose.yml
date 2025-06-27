@@ -37,3 +37,19 @@ services:
           - minio
     volumes:
       - minio-s3-data:/data
+  mc:
+    image: minio/mc
+    container_name: mc
+    depends_on:
+      - minio-s3
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      /usr/bin/mc alias set myminio http://minio:9000 admin password;
+      /usr/bin/mc mb myminio/warehouse;
+      /usr/bin/mc policy set public myminio/warehouse;
+      echo '✅ MinIO bucket warehouse created!';
+      exit 0
+      "
+    networks:
+      - ducklake-net
