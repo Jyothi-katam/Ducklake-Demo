@@ -1,0 +1,39 @@
+version: "3.8"
+
+networks:
+  ducklake-net:
+
+volumes:
+  minio-s3-data:
+
+services:
+  pg-catalog:
+    image: postgres:15-alpine
+    container_name: postgres-catalog
+    environment:
+      - POSTGRES_USER=ducklake
+      - POSTGRES_PASSWORD=ducklake
+      - POSTGRES_DB=ducklake
+    networks:
+      - ducklake-net
+    ports:
+      - "5432:5432"
+
+  minio-s3:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+      - MINIO_DOMAIN=minio
+    command: ["server", "/data", "--console-address", ":9001"]
+    networks:
+      ducklake-net:
+        aliases:
+          - warehouse.minio
+          - minio
+    volumes:
+      - minio-s3-data:/data
