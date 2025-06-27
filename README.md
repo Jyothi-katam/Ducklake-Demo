@@ -53,11 +53,19 @@ Connect to the PostgreSQL database container using the following command:
   **Start DuckDB locally using the command below:**
 
     duckdb
+
+ **Install and load Ducklake Extension using the below command:**
+
+    INSTALL ducklake;
+
+    LOAD ducklake;
   
 **Attach a PostgreSQL-backed DuckLake catalog using the below command:**
 
     ATTACH 'ducklake:postgres:host=localhost dbname=ducklake user=ducklake password=ducklake port=5432'
     AS my_ducklake (data_path 's3://warehouse/');
+
+After attaching the catalog, you can create tables, insert data, and explore the metadata using the __ducklake_metadata_<catalog> schema.
     
 **Note:** Make sure you have:
 
